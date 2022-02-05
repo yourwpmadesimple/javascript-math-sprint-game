@@ -219,6 +219,56 @@ button:active {
   background: var(--primary-color);
 }
 
+.play-again
+{
+  -webkit-animation-delay: 3s;
+          animation-delay: 3s;
+  -webkit-animation: 500ms ease 0s normal forwards 1 fadein;
+          animation: 500ms ease 0s normal forwards 1 fadein;
+}
+@keyframes fadein{
+  0% { opacity:0; }
+  66% { opacity:0; }
+  100% { opacity:1; }
+}
+
+@-webkit-keyframes fadein{
+  0% { opacity:0; }
+  66% { opacity:0; }
+  100% { opacity:1; }
+}
+
+.play-again {
+	opacity: 0;
+	-webkit-animation-name: fadeInOpacity;
+	        animation-name: fadeInOpacity;
+	-webkit-animation-iteration-count: 1;
+	        animation-iteration-count: 1;
+	-webkit-animation-timing-function: ease-in;
+	        animation-timing-function: ease-in;
+  -webkit-animation-delay: 3s;
+	        animation-delay: 3s;
+	-webkit-animation-duration: 500ms;
+	        animation-duration: 500ms;
+}
+
+@-webkit-keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 /* Countdown Page ---------------------- */
 .countdown {
   margin-top: 45%;

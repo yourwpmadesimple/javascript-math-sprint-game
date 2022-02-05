@@ -150,3 +150,8 @@ function populateGamePage() {
   itemContainer.appendChild(bottomSpacer);
 }
 ```
+
+## Position Container back to default posisition
+```javascript
+itemContainer.scrollTo({ top: 0, behavior: "instant" });
+```
