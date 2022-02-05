@@ -31,15 +31,53 @@ let equationsArray = [];
 // Game Page
 let firstNumber = 0;
 let secondNumber = 0;
-let equtionObject = {};
+let equationObject = {};
 const wrongFormat = [];
 
 // Time
 
 // Scroll
 
+// Get Random number up to a max number
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 // Create Correct/Incorrect Random Equations
-function createEquations() {}
+function createEquations() {
+  // Randomly choose how many correct equations there should be
+  const correctEquations = getRandomInt(questionAmount);
+  console.log("correct equations:", correctEquations);
+
+  // Set amount of wrong equations
+  const wrongEquations = questionAmount - correctEquations;
+  console.log("wrong equations:", wrongEquations);
+
+  // Loop through, multiply random numbers up to 9, push to array
+  for (let i = 0; i < correctEquations; i++) {
+    firstNumber = getRandomInt(9);
+    secondNumber = getRandomInt(9);
+    const equationValue = firstNumber * secondNumber;
+    const equation = `${firstNumber} x ${secondNumber} = ${equationValue}`;
+    equationObject = { value: equation, evaluated: "true" };
+    equationsArray.push(equationObject);
+  }
+
+  // Loop through, mess with the equation results, push to array
+  for (let i = 0; i < wrongEquations; i++) {
+    firstNumber = getRandomInt(9);
+    secondNumber = getRandomInt(9);
+    const equationValue = firstNumber * secondNumber;
+    wrongFormat[0] = `${firstNumber} X ${secondNumber + 1} = ${equationValue}`;
+    wrongFormat[1] = `${firstNumber} X ${secondNumber} = ${equationValue - 1}`;
+    wrongFormat[2] = `${firstNumber + 1} X ${secondNumber} = ${equationValue}`;
+    const formatChoice = getRandomInt(3);
+    const equation = wrongFormat[formatChoice];
+    equationObject = { value: equation, evaluated: "false" };
+    equationsArray.push(equationObject);
+  }
+  console.log("equations array:", equationsArray);
+}
 
 // Start the Countdown, displays... 3,2,1 , Go!
 function countdownStart() {
@@ -60,10 +98,7 @@ function showCountDown() {
   countdownPage.hidden = false;
   splashPage.hidden = true;
   countdownStart();
-  console.log(
-    "showing the countdown page and countdownStart function ",
-    countdownPage
-  );
+  createEquations();
 }
 
 // Get the value from selected radio button
@@ -85,7 +120,6 @@ function selectQuestionAmount(e) {
   if (questionAmount) {
     showCountDown();
   }
-  console.log("select question amount", questionAmount);
 }
 
 // Event Listeners
