@@ -83,8 +83,6 @@ function createEquations() {
     equationsArray.push(equationObject);
   }
   shuffle(equationsArray);
-  console.log("equations array:", equationsArray);
-  equationsToDOM();
 }
 
 // Add equations to DOM
@@ -98,8 +96,32 @@ function equationsToDOM() {
     equationText.textContent = equation.value;
     // Append
     item.appendChild(equationText);
-    itemContainer.appendChild(item);
+    itemContainer.append(item);
   });
+}
+
+// Dynamically adding correct/incorrect equations
+function populateGamePage() {
+  // Reset DOM, Set Black Space Above
+  itemContainer.textContent = "";
+  // Spacer
+  const topSpacer = document.createElement("div");
+  topSpacer.classList.add("height-240");
+  // Selected Item
+  const selectedItem = document.createElement("div");
+  selectedItem.classList.add("selected-item");
+  // Append
+  itemContainer.appendChild(selectedItem);
+  itemContainer.appendChild(topSpacer);
+
+  // Create Equations, Build Elements in DOM
+  createEquations();
+  equationsToDOM();
+
+  // Set Blank Space Below
+  const bottomSpacer = document.createElement("div");
+  bottomSpacer.classList.add("height-500");
+  itemContainer.appendChild(bottomSpacer);
 }
 
 // Start the Countdown, displays... 3,2,1 , Go!
@@ -121,8 +143,8 @@ function showCountDown() {
   countdownPage.hidden = false;
   splashPage.hidden = true;
   countdownStart();
-  createEquations();
-  setTimeout(showGamePage, 400);
+  populateGamePage();
+  setTimeout(showGamePage, 4000);
 }
 
 // Get the value from selected radio button
