@@ -1,7 +1,3 @@
-# Javascript Math Sprint Game
-
-## Radio Buttons section and Functionality
-```javascript
 // Get Elements
 
 // Pages
@@ -37,4 +33,42 @@ let firstNumber = 0;
 let secondNumber = 0;
 let equtionObject = {};
 const wrongFormat = [];
-```
+
+// Time
+
+// Scroll
+
+// Create Correct/Incorrect Random Equations
+function createEquations() {}
+
+// Get the value from selected radio button
+function getRadioValue() {
+  let radioValue;
+  radioInputs.forEach((radioInput) => {
+    if (radioInput.checked) {
+      radioValue = radioInput.value;
+    }
+  });
+  return radioValue;
+}
+
+// Form that decides amount of questions
+function selectQuestionAmount(e) {
+  e.preventDefault();
+  questionAmount = getRadioValue();
+  console.log("question amount", questionAmount);
+}
+
+// Event Listeners
+startForm.addEventListener("click", () => {
+  radioContainers.forEach((radioEl) => {
+    // Remove Seleted Label Styling
+    radioEl.classList.remove("selected-label");
+    // Add it back if the radio input is checked
+    if (radioEl.children[1].checked) {
+      radioEl.classList.add("selected-label");
+    }
+  });
+});
+
+startForm.addEventListener("submit", selectQuestionAmount);
