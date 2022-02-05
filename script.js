@@ -38,6 +38,12 @@ const wrongFormat = [];
 
 // Scroll
 
+// Displays Game Page
+function showGamePage() {
+  gamePage.hidden = false;
+  countdownPage.hidden = true;
+}
+
 // Get Random number up to a max number
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -78,6 +84,22 @@ function createEquations() {
   }
   shuffle(equationsArray);
   console.log("equations array:", equationsArray);
+  equationsToDOM();
+}
+
+// Add equations to DOM
+function equationsToDOM() {
+  equationsArray.forEach((equation) => {
+    // Item
+    const item = document.createElement("div");
+    item.classList.add("item");
+    // Equation Text
+    const equationText = document.createElement("h1");
+    equationText.textContent = equation.value;
+    // Append
+    item.appendChild(equationText);
+    itemContainer.appendChild(item);
+  });
 }
 
 // Start the Countdown, displays... 3,2,1 , Go!
@@ -100,6 +122,7 @@ function showCountDown() {
   splashPage.hidden = true;
   countdownStart();
   createEquations();
+  setTimeout(showGamePage, 400);
 }
 
 // Get the value from selected radio button

@@ -115,3 +115,11 @@ function createEquations() {
   console.log("equations array:", equationsArray);
 }
 ```
+## Display Game Page
+```javascript
+// Displays Game Page
+function showGamePage() {
+  gamePage.hidden = false;
+  countdownPage.hidden = true;
+}
+```
