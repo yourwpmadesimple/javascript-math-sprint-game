@@ -38,3 +38,41 @@ let secondNumber = 0;
 let equtionObject = {};
 const wrongFormat = [];
 ```
+
+## Countdown Page
+```javascript
+// Start the Countdown, displays... 3,2,1 , Go!
+function countdownStart() {
+  countdown.textContent = "3";
+  setTimeout(() => {
+    countdown.textContent = "2";
+  }, 1000);
+  setTimeout(() => {
+    countdown.textContent = "1";
+  }, 2000);
+  setTimeout(() => {
+    countdown.textContent = "GO!";
+  }, 3000);
+}
+
+// Navigate from Splash Page to Countdown Page
+function showCountDown() {
+  countdownPage.hidden = false;
+  splashPage.hidden = true;
+  countdownStart();
+  console.log(
+    "showing the countdown page and countdownStart function ",
+    countdownPage
+  );
+}
+// Form that decides amount of questions
+function selectQuestionAmount(e) {
+  e.preventDefault();
+  questionAmount = getRadioValue();
+  console.log("question amount", questionAmount);
+  if (questionAmount) {
+    showCountDown();
+  }
+  console.log("select question amount", questionAmount);
+}
+```
