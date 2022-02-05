@@ -153,5 +153,17 @@ function populateGamePage() {
 
 ## Position Container back to default posisition
 ```javascript
-itemContainer.scrollTo({ top: 0, behavior: "instant" });
+// Format and display time in DOM
+function scoresToDOM() {
+  finalTimeDisplay = finalTime.toFixed(1);
+  baseTime = timePlayed.toFixed(1);
+  penaltyTime = penaltyTime.toFixed(1);
+  baseTimeEl.textContent = `Base Time: ${baseTime}`;
+  penaltyTimeEl.textContent = `Penalty: +${penaltyTime}`;
+  finalTimeEl.textContent = `${finalTimeDisplay}s`;
+  // Sroll to top, go to score page
+  itemContainer.scrollTo({ top: 0, behavior: "instant" });
+  showScorePage();
+}
+// Added itemContainer.scrollTo({ top: 0, behavior: "instant" });
 ```
