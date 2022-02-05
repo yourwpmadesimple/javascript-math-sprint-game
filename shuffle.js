@@ -1,3 +1,4 @@
+// Fisher Yates (aka Knuth) Shuffle
 function shuffle(array) {
   let currentIndex = array.length;
   let temporaryValue;
