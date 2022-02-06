@@ -28,7 +28,13 @@ const playAgainBtn = document.querySelector(".play-again");
 let questionAmount = 0;
 let equationsArray = [];
 let playerGuessArray = [];
+let bestScoreArray = [];
 
+// Page Titles
+let gamePageTitle = document.getElementById("game-page-title");
+gamePageTitle.style.color = "rgba(0, 0, 0, 1)";
+gamePageTitle.style.textShadow = "none";
+gamePageTitle.textContent = "Splash Page";
 // Game Page
 let firstNumber = 0;
 let secondNumber = 0;
@@ -41,10 +47,61 @@ let timePlayed = 0;
 let baseTime = 0;
 let penaltyTime = 0;
 let finalTime = 0;
-let finalTimeDisplay = "0.0s";
+let finalTimeDisplay = "0.0";
 
 // Scroll
 let valueY = 0;
+
+// Page Tiles
+function gamePageTitles(pageTitle) {
+  gamePageTitle.textContent = "";
+  gamePageTitle.textContent = pageTitle;
+}
+
+// Refresh Splash page
+function bestSoresToDOM() {
+  // Loop through best scores
+  bestScores.forEach((bestScore, index) => {
+    const bestScoreEl = bestScore;
+    bestScoreEl.textContent = `${bestScoreArray[index].bestScore}s`;
+  });
+}
+
+// Check local storage for best scores, set bestScoreArray
+function getSavedBestScores() {
+  if (localStorage.getItem("bestScores")) {
+    bestScoreArray = JSON.parse(localStorage.bestScores);
+  } else {
+    bestScoreArray = [
+      { questions: 10, bestScore: finalTimeDisplay },
+      { questions: 25, bestScore: finalTimeDisplay },
+      { questions: 50, bestScore: finalTimeDisplay },
+      { questions: 90, bestScore: finalTimeDisplay },
+    ];
+    localStorage.setItem("bestScores", JSON.stringify(bestScoreArray));
+  }
+  bestSoresToDOM();
+}
+
+// Update bestScoresArray
+function updateBestScores() {
+  bestScoreArray.forEach((score, index) => {
+    // Select correct Best Score to update
+    if (questionAmount == score.questions) {
+      // Return best score as number with 1 decimal
+      const savedBestScore = Number(bestScoreArray[index].bestScore);
+      // Update if the new final score is less or replacing zero
+      if (savedBestScore === 0 || savedBestScore > finalTime) {
+        bestScoreArray[index].bestScore = finalTimeDisplay;
+      }
+    }
+  });
+  // Update splash page
+  bestSoresToDOM();
+  // Save to local storage
+  localStorage.setItem("bestScores", JSON.stringify(bestScoreArray));
+}
+
 // Reset Game
 function playAgain() {
   gamePage.addEventListener("click", startTimer);
@@ -54,6 +111,7 @@ function playAgain() {
   playerGuessArray = [];
   valueY = 0;
   playAgainBtn.hidden = true;
+  gamePageTitles("Splash Page");
 }
 
 // Show Score Page
@@ -61,6 +119,7 @@ function showScorePage() {
   playAgainBtn.hidden = false;
   gamePage.hidden = true;
   scorePage.hidden = false;
+  gamePageTitles("Score Page");
   console.log("Play again buttonn:", playAgainBtn);
 }
 
@@ -72,6 +131,7 @@ function scoresToDOM() {
   baseTimeEl.textContent = `Base Time: ${baseTime}`;
   penaltyTimeEl.textContent = `Penalty: +${penaltyTime}`;
   finalTimeEl.textContent = `${finalTimeDisplay}s`;
+  updateBestScores();
   // Sroll to top, go to score page
   itemContainer.scrollTo({ top: 0, behavior: "instant" });
   showScorePage();
@@ -136,6 +196,7 @@ function select(guessedTrue) {
 function showGamePage() {
   gamePage.hidden = false;
   countdownPage.hidden = true;
+  gamePageTitles("Game Page");
 }
 
 // Get Random number up to a max number
@@ -220,16 +281,19 @@ function populateGamePage() {
 
 // Start the Countdown, displays... 3,2,1 , Go!
 function countdownStart() {
-  countdown.textContent = "3";
-  setTimeout(() => {
-    countdown.textContent = "2";
+  let count = 5;
+  countdown.textContent = count;
+  const timeCountDown = setInterval(() => {
+    count--;
+    if (count === 0) {
+      countdown.textContent = "Co!";
+    } else if (count === -1) {
+      showGamePage();
+      clearInterval(timeCountDown);
+    } else {
+      countdown.textContent = count;
+    }
   }, 1000);
-  setTimeout(() => {
-    countdown.textContent = "1";
-  }, 2000);
-  setTimeout(() => {
-    countdown.textContent = "GO!";
-  }, 3000);
 }
 
 // Navigate from Splash Page to Countdown Page
@@ -238,7 +302,6 @@ function showCountDown() {
   splashPage.hidden = true;
   countdownStart();
   populateGamePage();
-  setTimeout(showGamePage, 4000);
 }
 
 // Get the value from selected radio button
@@ -274,5 +337,9 @@ startForm.addEventListener("click", () => {
   });
 });
 
+// Event Listeners
 startForm.addEventListener("submit", selectQuestionAmount);
 gamePage.addEventListener("click", startTimer);
+
+// On Load
+getSavedBestScores();
